@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.full-site {
+    height: 100vh;
+    background-color: #F5F6FA;
+    overflow: hidden;
+}
+
+#header {
+    color: #F5F6FA;
+    margin: 0
+}
+
+#header h1 {
+    margin: 0 0 0 90;
+}
+
+#content {
+    padding: 15px 20%;
+}
+
+.button {
+    border: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #1E1E23;
+    opacity:1;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 13px;
+    transition: 200ms;
+    border-radius: 10px;
+}
+
+button:hover, a:hover {
+    opacity:0.5;
+}
+
+#recipe {
+    padding: 20 25 20 25;
+    border-radius: 10px;
+    background-color: #ebebeb;
+}
+
+#recipe h2, #recipe p {
+    margin-block-start: 8px;
+}
+
+#recipe .user, #recipe .created_at {
+    text-decoration: none;
+    color: #e4ba00;
+    opacity:1;
+    font-size: 17px;
+    font-weight: 600;
+    transition: 200ms;
+    margin-right: 25px;
+}
+
+#recipe .title a {
+    text-decoration: none;
+    color: #1E1E23;
+    font-size: 30px;
+    transition: 200ms;
+}
+
+#recipe .description {
+    text-align: justify;
+    overflow-wrap: break-word;
+    hyphens: manual;
+}
+
+#recipe .button {
+    display: block;
+    background-color: #e4ba00;
+    color: #F5F6FA;
+    width: 100%;
+    text-align: center;
+}
