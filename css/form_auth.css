@@ -1,7 +1,16 @@
 #login {
+    width: 400px;
     padding: 20 25 20 25;
     border-radius: 10px;
     background-color: #ebebeb;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 500px) {
+    #login {
+        width: auto;
+        margin: 0 20px;
+    }
 }
 
 #login * {

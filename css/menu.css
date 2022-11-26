@@ -26,10 +26,12 @@ li {
 nav {
     background-color: #1E1E23;
     height: 70px;
+    position: fixed;
+    width: 100%;
 }
   
 #menuToggle {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     position: relative;
     top: 25px;
@@ -118,9 +120,9 @@ nav {
 }
 
 .buttonLogIn {
-    background-color: royalblue
+    background-color: #b39200
 }
 
 .buttonSignIn {
-    background-color: crimson
+    background-color: #e4ba00
 }

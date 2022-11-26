@@ -1,7 +1,26 @@
 #recipe {
+    width: 600px;
     padding: 20 25 20 25;
     border-radius: 10px;
     background-color: #ebebeb;
+    margin: 10px auto;
+}
+
+#recipe:first-child {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+#recipe:last-child {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+@media screen and (max-width: 700px) {
+    #recipe {
+        width: auto;
+        margin: 0 20px;
+    }
 }
 
 #recipe h2, #recipe p {
