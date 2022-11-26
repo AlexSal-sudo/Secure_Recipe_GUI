@@ -1,0 +1,10 @@
+#login {
+    padding: 20 25 20 25;
+    border-radius: 10px;
+    background-color: #ebebeb;
+}
+
+#login * {
+    width: 100%;
+    margin: 10 0;
+}
