@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Secure Recipe | Aggiungi Ricetta</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/menu.css">
+        <link rel="stylesheet" href="css/recipe_max.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class="full-site">
+            <nav id="navigation">
+                <div id="menuToggle">
+                    <input type="checkbox" />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <ul id="menu">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Chi siamo</a></li>
+                        <li class="buttonLogIn"><a href="#">Accedi</a></li>
+                        <li class="buttonSignIn"><a href="#">Registrati</a></li>
+                    </ul>
+                </div>
+                <div id="header">
+                    <h1>
+                        Secure Recipe
+                    </h1>
+                </div>
+            </nav>
+
+            <div id="content">
+                <input type="text" id="title" name="title" value="Titolo ricetta">
+                <a class="user" href="#"><i class="fa fa-user"></i> Utente</a>
+                <a class="created_at" href="#"><i class="fa fa-clock-o"></i> Data creazione</a>
+                <textarea name="description" class="description" width="100%" rows="5">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum facilisis placerat. Sed aliquet orci tellus, ut luctus metus lacinia eu. Duis ornare eleifend ligula. Vivamus pharetra nulla lacus, eu molestie ligula scelerisque et. Fusce viverra a diam id efficitur. Phasellus nisl augue, luctus sit amet convallis vel, egestas vitae arcu. Mauris sed arcu elit. Sed fringilla varius nisi ut euismod. Sed scelerisque, magna sit amet tincidunt rutrum, lectus magna mollis lacus, vitae posuere orci felis vitae nibh. Praesent iaculis turpis mauris, a sollicitudin odio suscipit quis. Sed consectetur nisi nisl, quis malesuada risus porta non. Vivamus congue nisi magna, at rutrum mauris facilisis vitae. Nullam non nibh magna. Curabitur eget tempus tellus, quis commodo sapien. Aliquam efficitur tempus nunc, bibendum dignissim risus rhoncus id. Vestibulum tempor suscipit eros ut ultrices.</textarea>
+                
+                <h2>Ingredienti</h2>
+                <ul class="ingredients">
+                    <li>
+                        <input type="text" id="nomeProdotto" name="nomeProdotto" placeholder="Nome...">
+                        <input type="text" id="quantitaProdotto" name="quantitaProdotto" placeholder="Quantità...">
+                        <input type="text" id="unitaProdotto" name="unitaProdotto" placeholder="Unità di misura...">
+                        <input type="submit" id="addIngredients" name="addIngredients" value="AGGIUNGI INGREDIENTE">
+                    </li>
+                </ul>
+
+                <h2>Passi</h2>
+                <ol class="steps">
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sollicitudin dui dui. Nunc pellentesque sollicitudin venenatis. Sed laoreet magna et dolor porta vulputate. Suspendisse ut tortor lectus. Morbi vel pellentesque risus. Pellentesque vitae nisi non tortor sagittis faucibus. Morbi nec arcu malesuada, tristique risus et, iaculis velit. Morbi in condimentum nisi. Ut egestas accumsan nunc.</li>
+                    <li>In in elit et dui aliquet lobortis ut nec tellus. Donec consequat sem a venenatis accumsan. Fusce accumsan eu lectus a accumsan. Donec aliquam, sapien ac lacinia finibus, nunc lacus suscipit tortor, vel scelerisque sapien diam eget est. Ut hendrerit velit dolor, sit amet blandit metus tincidunt a. Vestibulum interdum lorem tortor, ac suscipit risus ultrices sed. Duis lacinia id enim vulputate suscipit. Maecenas malesuada magna aliquam efficitur porta.</li>
+                    <li>Sed fermentum convallis nunc ac eleifend. Duis eget euismod odio. Nulla vulputate lectus et ipsum placerat, id sodales velit sollicitudin. Sed convallis porta justo vitae commodo. Donec rutrum ut tortor quis pellentesque. In arcu turpis, cursus vitae elit eu, consequat auctor ipsum. Etiam massa elit, pulvinar vitae ante nec, laoreet euismod erat. Suspendisse potenti. Pellentesque at neque porta, placerat turpis at, pharetra ligula.</li>
+                </ol>
+            </div>
+        </div>
+    </body>
+</html>
