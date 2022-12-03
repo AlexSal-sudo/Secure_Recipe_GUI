@@ -2,10 +2,7 @@ body {
     margin: 0;
     font-family: 'Inter', sans-serif;
     color: #1E1E23;
-    background-image: url("../img/background.png");
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
+    background-color: #F5F6FA;
 }
 
 .full-site {
@@ -15,7 +12,7 @@ body {
 
 #header {
     color: #F5F6FA;
-    margin: 0;
+    margin: 0
 }
 
 #header h1 {
@@ -26,15 +23,13 @@ body {
     padding: 100px 0;
 }
 
-input, textarea {
+input {
     font-size: 20px;
     font-weight: 600;
     padding: 13px;
     transition: 200ms;
     border-radius: 10px;
     opacity:1;
-    font-family: 'Inter', sans-serif;
-    resize: none;
 }
 
 .button, input[type=submit] {
