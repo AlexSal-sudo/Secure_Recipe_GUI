@@ -32,7 +32,7 @@ nav {
     background-color: #1E1E23;
     height: 70px;
     position: fixed;
-    width: 100%;
+    width: -webkit-fill-available;
 }
   
 #menuToggle {

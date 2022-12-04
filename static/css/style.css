@@ -9,7 +9,6 @@ body {
 }
 
 .full-site {
-    /*height: 100vh; DA RISOLVERE BUG SCHERMATA PICCOLA */ 
     overflow: hidden;
 }
 
@@ -20,6 +19,11 @@ body {
 
 #header h1 {
     margin: 0 0 0 90px;
+}
+
+#header h1 a {
+    color: #F5F6FA;
+    text-decoration: none;
 }
 
 #content {
