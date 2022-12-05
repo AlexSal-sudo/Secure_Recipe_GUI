@@ -16,8 +16,5 @@
 
 <h2>Ingredienti</h2>
 <ul class="ingredients">
-    <!-- <li>Coffee</li>
-    <li>Tea</li>
-    <li>Milk</li> -->
     {@html ingredients}
 </ul>
