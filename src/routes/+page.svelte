@@ -1,11 +1,20 @@
 <script>
-	import { dataset_dev } from "svelte/internal";
-
+	import { dataset_dev, onMount } from "svelte/internal";
     import RecipeMin from "../import/recipe_min.svelte";
+
+    let recipes = [];
+    import axios from 'axios';
+    onMount(async() => {
+        await axios("http://localhost:8000/api/v1/recipes/", {
+            method: "GET",
+        }).then(response => {
+            console.log(response.data);
+            recipes = response.data;
+        })
+    });
 </script>
 
 <title>Secure Recipe</title>
-
-<!--{#each data.recipes as recipe}
+{#each recipes as recipe}
     <RecipeMin {...recipe}></RecipeMin>
-{/each}-->
+{/each}

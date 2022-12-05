@@ -28,7 +28,7 @@
     margin-block-start: 8px;
 }
 
-#recipe .user, #recipe .created_at {
+#recipe .user, #recipe .created_at, #content .create_post, #content .delete_post, #content .modify_post {
     text-decoration: none;
     color: #e4ba00;
     opacity:1;

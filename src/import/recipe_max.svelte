@@ -1,5 +1,5 @@
 <script>
-    export let user;
+    export let author;
     export let created_at;
     export let title;
     export let description;
@@ -7,7 +7,7 @@
 </script>
 
 <h1 class="title">{title}</h1>
-<a class="user" href="../user/{user}"><i class="fa fa-user"></i> {user}</a>
+<a class="user" href="../user/{author}"><i class="fa fa-user"></i> {author}</a>
 <!-- svelte-ignore a11y-missing-attribute -->
 <a class="created_at"><i class="fa fa-clock-o"></i> {created_at}</a>
 
