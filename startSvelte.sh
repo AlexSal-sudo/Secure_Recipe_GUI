@@ -1,3 +1,3 @@
 #!/usr/bin/sh
 npm install
-npm run dev
+npm run dev -- --host

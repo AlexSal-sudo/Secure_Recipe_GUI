@@ -9,7 +9,6 @@ export function load({ params }) {
         created_at: "Creato "  + params.slug,
         title: "Titolo " + params.slug,
         description: "Descrizione "  + params.slug,
-        ingredients: "<li>Ingrediente 1</li><li>Ingrediente 2</li><li>Ingrediente 3</li>",
-        step: "Step "  + params.slug,
+        ingredients: "<li>Ingrediente 1</li><li>Ingrediente 2</li><li>Ingrediente 3</li>"
     };
 }

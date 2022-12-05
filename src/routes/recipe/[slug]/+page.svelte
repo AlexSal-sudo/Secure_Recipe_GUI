@@ -14,5 +14,4 @@
     title={data.title}
     description={data.description}
     ingredients={data.ingredients}
-    step={data.step}
 ></RecipeMax>
