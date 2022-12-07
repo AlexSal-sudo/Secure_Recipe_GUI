@@ -8,7 +8,6 @@
         await axios("http://localhost:8000/api/v1/recipes/", {
             method: "GET",
         }).then(response => {
-            console.log(response.data);
             recipes = response.data;
         })
     });

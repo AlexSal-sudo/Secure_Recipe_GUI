@@ -27,15 +27,14 @@
             return;
         }
         else{
-            axios.post('http://localhost:8000/api-auth/login/',{
+            axios.post('http://localhost:8000/api/v1/auth/login/',{
                 username: current_form_data.username,
                 password: current_form_data.password
             }, {
                 withCredentials: true
             }).then(response =>{
-                push('/')
+                window.location.replace('/')
             }).catch(error =>{
-                console.log(error)
                 alert_displayed = error.response.data.non_field_errors[0]
             })
         }

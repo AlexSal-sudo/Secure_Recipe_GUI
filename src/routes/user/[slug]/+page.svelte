@@ -11,7 +11,6 @@
         await axios(url, {
             method: "GET",
         }).then(response => {
-            console.log(response.data);
             recipes = response.data;
         })
     });
@@ -19,7 +18,7 @@
 
 <title>Ricette di {data.id} | Secure Recipe</title>
 
-<h2 class="titleUserSearch">Ricette pubblicate dall'utente {data.id}</h2>
+<h2 class="titleUserSearch">Recipes posted by the user {data.id}</h2>
 {#each recipes as recipe}
     <RecipeMin {...recipe}></RecipeMin>
 {/each}

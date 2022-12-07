@@ -11,10 +11,10 @@
 <!-- svelte-ignore a11y-missing-attribute -->
 <a class="created_at"><i class="fa fa-clock-o"></i> {created_at}</a>
 
-<h2>Descrizione</h2>
+<h2>Description</h2>
 <p class="description">{description}</p>
 
-<h2>Ingredienti</h2>
+<h2>Ingredients</h2>
 <ul class="ingredients">
     {@html ingredients}
 </ul>

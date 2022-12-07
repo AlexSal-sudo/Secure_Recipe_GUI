@@ -96,3 +96,34 @@ input[type=text] {
     margin-right: 0px !important;
     padding: 5px;
 }
+
+.listRecipeAccount {
+    margin-block-start: 1em;
+}
+
+.listRecipeAccount p {
+    font-size: 25px;
+    font-weight: bold;
+    margin-block-start: 0em;
+    margin-block-end: 10px;
+}
+
+.recipeAccount {
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px;
+    border-left-width: 10px;
+    border-color: #e4ba00;
+    background: #e4ba0025;
+    margin: 15px 0;
+}
+
+.recipeAccount:first-child {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.recipeAccount:last-child {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
