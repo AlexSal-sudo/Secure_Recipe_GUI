@@ -42,10 +42,10 @@
 </script>
 
 
-<title>ACCEDI | Secure Recipe</title>
+<title>LOGIN | Secure Recipe</title>
 
 <form id="login">
-    <h2>Accedi</h2>
+    <h2>Login</h2>
     {#if alert_displayed != null}
         <div class="invalid-feedback">{alert_displayed}</div>
     {/if}
@@ -63,5 +63,5 @@
 
     <label for="password">Password*:</label>
     <input type="password" id="password" bind:value={current_form_data.password}/>
-    <input type="submit" on:click={doLogin}>
+    <input type="submit" on:click={doLogin} value="Login">
 </form>

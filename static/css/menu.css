@@ -124,10 +124,10 @@ nav {
     transform: none;
 }
 
-.buttonLogIn {
+.buttonLogIn, .buttonAccount {
     background-color: #b39200
 }
 
-.buttonSignIn {
+.buttonSignIn, .buttonLogout {
     background-color: #e4ba00
 }

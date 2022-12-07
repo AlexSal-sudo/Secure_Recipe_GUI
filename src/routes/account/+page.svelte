@@ -11,20 +11,25 @@
     let recipes = [];
     import axios from 'axios';
     onMount(async() => {
-        await axios("http://localhost:8000/api/v1/personal-area/", {
-            method: "GET",
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-            withCredentials: true,
-        }).then(response => {
-            recipes = response.data;
-        })
+        if(getCookie('csrftoken') === null) {
+            window.location.replace('/')
+        } else {
+            await axios("http://localhost:8000/api/v1/personal-area/", {
+                method: "GET",
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                withCredentials: true,
+            }).then(response => {
+                recipes = response.data;
+            })
+        }
+        
     });
 </script>
 
 <link rel="stylesheet" href="../css/account.css">
-<title>AREA PERSONALE | Secure Recipe</title>
+<title>ACCOUNT | Secure Recipe</title>
 
 <h2>List of published recipes</h2>
 <a class="create_post"><i class="fa fa-plus"></i> Add</a>

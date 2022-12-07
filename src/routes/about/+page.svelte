@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="../css/about.css">
   
-<title>CHI SIAMO | Secure Recipe</title>
+<title>ABOUT | Secure Recipe</title>
 
-<h1>Chi siamo</h1>
+<h1>About</h1>
 
 <p class="description">
     <strong>Secure Recipe</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis vestibulum nisi id porttitor. Cras sed

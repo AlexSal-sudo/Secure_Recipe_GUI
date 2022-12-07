@@ -24,3 +24,5 @@
         })
     });
 </script>
+
+<titl>LOGOUT | Secure Recipe</titl>

@@ -30,8 +30,8 @@
 					<li><a href="/about">About</a></li>
 					<li class="buttonLogIn"><a href="/login">Login</a></li>
 					<li class="buttonSignIn"><a href="/register">Sign in</a></li>
-					<li class="buttonLogIn"><a href="/account">Account</a></li>
-					<li class="buttonSignIn"><a href="/logout">Logout</a></li>
+					<li class="buttonAccount"><a href="/account">Account</a></li>
+					<li class="buttonLogout"><a href="/logout">Logout</a></li>
 				</ul>
 			</div>
 			<div id="header">
@@ -46,5 +46,21 @@
 				%sveltekit.body%
 			</div>
 		</div>
+
+		<script>
+			function getCookie(name) {
+				function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+				var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+				return match ? match[1] : null;
+			}
+
+			if(getCookie('csrftoken') === null) {
+				document.querySelector(".buttonAccount").style.display = "none";
+				document.querySelector(".buttonLogout").style.display = "none";
+			} else {
+				document.querySelector(".buttonLogIn").style.display = "none";
+				document.querySelector(".buttonSignIn").style.display = "none";
+			}
+		</script>
 	</body>
 </html>
