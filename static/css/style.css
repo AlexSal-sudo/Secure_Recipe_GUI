@@ -34,7 +34,7 @@ body {
     text-align: center;
 }
 
-input, textarea {
+input, textarea, select {
     font-size: 20px;
     font-weight: 600;
     padding: 13px;
@@ -58,6 +58,11 @@ input, textarea {
     border-radius: 10px;
     background-color: #e4ba00;
     cursor: pointer;
+    width: -webkit-fill-available;
+}
+
+input:disabled {
+    background-color: #c5c5c5;
 }
 
 .button:hover, input[type=submit]:hover,a:hover {
@@ -66,7 +71,9 @@ input, textarea {
 
 input[type=text],
 input[type=password],
-input[type=email] {
+input[type=email],
+input[type=number],
+select {
     border: 1px solid #1E1E23;
     color: #1E1E23;
 }

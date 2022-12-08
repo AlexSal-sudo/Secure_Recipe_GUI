@@ -17,12 +17,11 @@
             withCredentials: true,
         }).then(response =>{
             document.cookie = "csrftoken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-            console.log(document.cookie);
-            window.location.replace('/')
+            window.location.href = '/'
         }).catch(error =>{
             console.log("ERRORE")
         })
     });
 </script>
 
-<titl>LOGOUT | Secure Recipe</titl>
+<title>LOGOUT | Secure Recipe</title>

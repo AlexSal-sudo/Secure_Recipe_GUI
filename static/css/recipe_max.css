@@ -35,19 +35,18 @@
     text-align: justify;
     overflow-wrap: break-word;
     hyphens: manual;
-    width: 100%;
+    width: -webkit-fill-available;
 }
 
-#content .ingredients {
+#content .ingredients, #list-ingredients {
     margin-block-start: 0;
     list-style-type: disc;
     padding-left: 25px;
     font-size: 18px;
 }
 
-.ingredients ::marker {
+.ingredients ::marker, #list-ingredients ::marker {
     color: #e4ba00;
-    font-size: 21px;
 }
 
 #content .steps {
@@ -61,30 +60,36 @@
     text-align: justify;
 }
 
-.steps ::marker {
-    color: #e4ba00;
-    font-size: 72px;
-}
-
 #content h2 {
     margin-block-end: 0px;
 }
 
-input[type=text] {
-    width: 100%;
+input[type=text]{
+    width: -webkit-fill-available;
     margin: 10 0;
 }
 
-.ingredients input[type=text] {
-    width: 32.8%;
+.add-ingredients {
+    margin-top: 5px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #F5F6FA;
 }
 
-@media screen and (max-width: 800px) {
-    .ingredients input[type=text] {
-        width: 100%;
-    }
+.add-ingredients td {
+    vertical-align: top;
 }
 
-.ingredients input[type=submit] {
+.add-ingredients input[type=text], .add-ingredients input[type=number], select {
     width: 100%;
+    padding: 13px 0;
+    margin: 0;
+}
+
+select {
+    padding: 12px 0;
+}
+
+h4 {
+    margin-block-end: 0;
 }

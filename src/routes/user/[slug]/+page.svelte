@@ -16,9 +16,9 @@
     });
 </script>
 
-<title>Recipes of {data.id} | Secure Recipe</title>
+<title>Recipes of {data.id.toUpperCase()} | Secure Recipe</title>
 
-<h2 class="titleUserSearch">Recipes posted by the user {data.id}</h2>
+<h2 class="titleUserSearch">Recipes posted by the user {data.id.toUpperCase()}</h2>
 {#each recipes as recipe}
     <RecipeMin {...recipe}></RecipeMin>
 {/each}

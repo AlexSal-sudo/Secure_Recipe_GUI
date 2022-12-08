@@ -12,7 +12,7 @@
     import axios from 'axios';
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
-            window.location.replace('/')
+            window.location.href = '/'
         } else {
             await axios("http://localhost:8000/api/v1/personal-area/", {
                 method: "GET",
@@ -32,7 +32,7 @@
 <title>ACCOUNT | Secure Recipe</title>
 
 <h2>List of published recipes</h2>
-<a class="create_post"><i class="fa fa-plus"></i> Add</a>
+<a class="create_post" href="/account/add-recipe"><i class="fa fa-plus"></i> Add</a>
 
 <div class="listRecipeAccount">
     {#each recipes as recipe}

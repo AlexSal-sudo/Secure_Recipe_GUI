@@ -1,6 +1,9 @@
 <script>
+    export let id;
     export let author;
+    export let username;
     export let created_at;
+    export let updated_at;
     export let title;
     export let description;
     export let ingredients;
