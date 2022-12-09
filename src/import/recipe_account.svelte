@@ -12,6 +12,6 @@
 
 <div class="recipeAccount">
     <p>{title}</p>
-    <a class="modify_post" href="#"><i class="fa fa-pencil"></i> Edit</a>
+    <a class="modify_post" href="/account/edit-recipe/{id}"><i class="fa fa-pencil"></i> Edit</a>
     <a class="delete_post" href="/account/delete/{id}"><i class="fa fa-close"></i> Delete</a>
 </div>

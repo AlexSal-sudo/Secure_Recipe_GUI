@@ -8,6 +8,7 @@
     }
 
     import axios from 'axios';
+	import { json } from "@sveltejs/kit";
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
             window.location.replace('/')
@@ -30,14 +31,35 @@
     }
     let date = getCreateDate()
     let ingredient = {
-        name: null,
-        quantity: null,
-        unit: null
+        name: "",
+        quantity: 0,
+        unit: ""
     }
-    let ingredients = []
 
     let alert_displayed = null;
     async function addRecipe() {
+        const nodeList = document.getElementById('list-ingredients').childNodes;
+        let ingredients = []
+        for (let i = 0; i < nodeList.length; i++) {
+            if(nodeList[i].nodeName !== 'INPUT') {
+                ingredient.name = nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value;
+                ingredient.quantity = Number(nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1].value);
+                ingredient.unit = nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[2].childNodes[1].value;
+            }
+            ingredients.push(ingredient);
+            ingredient = {
+                name: "",
+                quantity: 0,
+                unit: ""
+            } 
+        }
+
+        for (let i = 0; i < nodeList.length; i++) {
+            ingredients[i] = ingredients[i+1];
+        }
+        ingredients.pop()
+        recipe.ingredients = ingredients
+
         axios.post('http://localhost:8000/api/v1/personal-area/', {
             title: recipe.title,
             description: recipe.description,
@@ -50,48 +72,49 @@
         }).then(response =>{
             window.location.replace('/')
         }).catch(error =>{
-            console.log(error)
-            alert_displayed = error.response.data;
+            console.log(error.response.data['title'])
+            let error_list = "<ul>"
+            for(let key in error.response.data) {
+                for(let i = 0; i < error.response.data[key].length; i++)
+                    error_list += "<li><i>" + key.toUpperCase() + ":</i> " + error.response.data[key][i] + "</li>"
+            }
+            error_list += "</ul>"
+            alert_displayed = error_list;
         })
     }
 
     function addIngredients() {
-        ingredient.quantity = Number(ingredient.quantity)
-        let tmp = {
-            name: null,
-            quantity: null,
-            unit: null
-        }
-        tmp.name = ingredient.name;
-        tmp.quantity = ingredient.quantity;
-        tmp.unit = ingredient.unit;
-        ingredients.push(tmp);
-
-        let list = "";
-        let i = 0;
-            for (;ingredients[i];) {
-                list += "<li><i>"
-                    + ingredients[i].name
-                    + "</i>, "
-                    + ingredients[i].quantity
-                    + " "
-                    + ingredients[i].unit
-                    + "</li>";
-                i++;
-            }
-
-        document.getElementById("list-ingredients").innerHTML = list;
+        var e = document.createElement('div')
+        e.innerHTML = "<div class=\"add-ingredients\">" +
+                "<table>" +
+                    "<tr>" +
+                        "<td>" +
+                            "<label for=\"nomeProdotto\">Ingredients name:</label>" +
+                            "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\">" +
+                        "</td>" +
+                        "<td>" +
+                            "<label for=\"quantitaProdotto\">Quantity:</label>" +
+                            "<input type=\"number\" id=\"quantitaProdotto\" name=\"quantitaProdotto\">" +
+                        "</td>" +
+                        "<td>" +
+                            "<label for=\"unitaProdotto\">Unit of measure:</label>" +
+                            "<select id=\"unitaProdotto\">" +
+                                "<option value=\"n/a\">n/a</option>" +
+                                "<option value=\"g\">g</option>" +
+                                "<option value=\"kg\">kg</option>" +
+                                "<option value=\"cl\">cl</option>" +
+                                "<option value=\"ml\">ml</option>" +
+                                "<option value=\"l\">l</option>" +
+                                "<option value=\"l\">cup</option>" +
+                            "</select>" +
+                        "</td>" +
+                    "</tr>" +
+                "</table>" +
+                "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
+            "</div>"
+        while(e.firstChild)
+            document.getElementById("list-ingredients")?.appendChild(e.firstChild);
         document.getElementById('publish').disabled = false;
-
-        recipe.ingredients = ingredients;
-        ingredient.name = null;
-        ingredient.quantity = null;
-        ingredient.unit = null;
-    }
-
-    function deleteIngredients(n) {
-        ingredients.pop(n);
-        console.log(ingredients);
     }
 </script>
 
@@ -102,7 +125,7 @@
 <form>
     <h1>Add Recipe</h1>
     {#if alert_displayed != null}
-        <div class="invalid-feedback">{alert_displayed}</div>
+        <div class="invalid-feedback">{@html alert_displayed}</div>
     {/if}
     <h2>Title</h2>
     <input type="text" id="title" name="title" bind:value={recipe.title}>
@@ -111,37 +134,8 @@
     <h2>Description</h2>
     <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
     <h2>Ingredients</h2>
-    <h4>Add ingredients</h4>
-        <div class="add-ingredients">
-            <table>
-                <tr>
-                    <td>
-                        <label for="nomeProdotto">Ingredients name:</label>
-                        <input type="text" id="nomeProdotto" name="nomeProdotto" bind:value={ingredient.name}>
-                    </td>
-                    <td>
-                        <label for="quantitaProdotto">Quantity:</label>
-                        <input type="number" id="quantitaProdotto" name="quantitaProdotto" bind:value={ingredient.quantity}>
-                    </td>
-                    <td>
-                        <label for="unitaProdotto">Unit of measure:</label>
-                        <select id="unitaProdotto" bind:value={ingredient.unit}>
-                            <option value="n/a">n/a</option>
-                            <option value="g">g</option>
-                            <option value="kg">kg</option>
-                            <option value="cl">cl</option>
-                            <option value="ml">ml</option>
-                            <option value="l">l</option>
-                            <option value="l">cup</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <input type="submit" id="addIngredients" name="addIngredients" value="Add ingredients" on:click={addIngredients}>
-        </div>
-    <h4>List ingredients</h4>
-    <ul id="list-ingredients">
-        <p style="text-align: center"><i>No ingredients entered</i></p>
-    </ul>
-    <input type="submit" id="publish" value="Publish recipe" on:click={addRecipe} disabled>
+    <div id="list-ingredients">
+        <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
+    </div>
+    <input type="submit" id="publish" value="Publish recipe" on:click={addRecipe} style="margin-block-start: 1em;" disabled>
 </form>
