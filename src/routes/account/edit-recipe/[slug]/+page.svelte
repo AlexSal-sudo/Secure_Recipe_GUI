@@ -40,42 +40,15 @@
         while(e.firstChild)
             document.getElementById("list-ingredients")?.appendChild(e.firstChild);
         document.getElementById('publish').disabled = false;
+        
     }
 
     let recipe = {}
 
     import axios from 'axios';
 	import IngredientRecipe from "../../../../import/ingredient_recipe.svelte";
-
-    function existingIngredients(ingredients) {
-        return "<div class=\"add-ingredients\">" +
-                "<table>" +
-                        "<td>" +
-                            "<label for=\"nomeProdotto\">Ingredients name:</label>" +
-                            "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\" value=\"" + ingredients.name +"\">" +
-                        "</td>" +
-                        "<td>" +
-                            "<label for=\"quantitaProdotto\">Quantity:</label>" +
-                            "<input type=\"number\" id=\"quantitaProdotto\" name=\"quantitaProdotto\" value=\"" + ingredients.quantity + "\">" +
-                        "</td>" +
-                        "<td>" +
-                            "<label for=\"unitaProdotto\">Unit of measure:</label>" +
-                            "<select id=\"unitaProdotto\" value=\"" + ingredients.unit + "\">" +
-                                "<option value=\"n/a\">n/a</option>" +
-                                "<option value=\"g\">g</option>" +
-                                "<option value=\"kg\">kg</option>" +
-                                "<option value=\"cl\">cl</option>" +
-                                "<option value=\"ml\">ml</option>" +
-                                "<option value=\"l\">l</option>" +
-                                "<option value=\"cup\">cup</option>" +
-                            "</select>" +
-                        "</td>" +
-                "</table>" +
-                "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
-            "</div>"
-    }
     
-    let test = []
+    let list_ingredients = []
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
             window.location.replace('/')
@@ -88,7 +61,7 @@
                 withCredentials: true,
             }).then(response => {
                 recipe = response.data;
-                test = recipe.ingredients;
+                list_ingredients = recipe.ingredients;
             }).catch(error =>{
                 window.location.replace('/account')
             })
@@ -112,7 +85,7 @@
                         if(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2] == undefined)
                             indice++;
                         ingredient.name = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2-indice].value;
-                        ingredient.quantity = Number(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[2].childNodes[2-indice].value);
+                        ingredient.quantity = Number(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[2-indice].childNodes[2-indice].value);
                         ingredient.unit = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[4-(indice*2)].childNodes[2-indice].value;
                         ingredients.push(ingredient);
                         ingredient = {
@@ -126,7 +99,6 @@
         }
         
         recipe.ingredients = ingredients
-        console.log(recipe.ingredients)
 
         axios.put('http://localhost:8000/api/v1/personal-area/' + data.id + '/', {
             title: recipe.title,
@@ -140,6 +112,7 @@
         }).then(response =>{
             window.location.replace('/account')
         }).catch(error =>{
+            console.log(error)
             alert_displayed = error.response.data;
         })
     }
@@ -162,7 +135,7 @@
     <h2>Ingredients</h2>
     <div id="list-ingredients">
         <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
-        {#each test as item}
+        {#each list_ingredients as item}
             <svelte:component this={IngredientRecipe} {...item}/>
         {/each}
     </div>

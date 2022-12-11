@@ -8,7 +8,6 @@
     }
 
     import axios from 'axios';
-	import { json } from "@sveltejs/kit";
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
             window.location.replace('/')
@@ -30,34 +29,37 @@
         ingredients: []
     }
     let date = getCreateDate()
-    let ingredient = {
-        name: "",
-        quantity: 0,
-        unit: ""
-    }
 
     let alert_displayed = null;
     async function addRecipe() {
         const nodeList = document.getElementById('list-ingredients').childNodes;
         let ingredients = []
+        let ingredient = {
+            name: "",
+            quantity: 0,
+            unit: ""
+        }
         for (let i = 0; i < nodeList.length; i++) {
-            if(nodeList[i].nodeName !== 'INPUT') {
-                ingredient.name = nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value;
-                ingredient.quantity = Number(nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1].value);
-                ingredient.unit = nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[2].childNodes[1].value;
+            if(nodeList[i].nodeName === 'DIV') {
+                for(let j = 0; j < nodeList[i].childNodes.length; j++) {
+                    if(nodeList[i].childNodes[j].nodeName === 'TABLE') {
+                        let indice = 0;
+                        if(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2] == undefined)
+                            indice++;
+                        ingredient.name = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2-indice].value;
+                        ingredient.quantity = Number(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[2-indice].childNodes[2-indice].value);
+                        ingredient.unit = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[4-(indice*2)].childNodes[2-indice].value;
+                        ingredients.push(ingredient);
+                        ingredient = {
+                            name: "",
+                            quantity: 0,
+                            unit: ""
+                        }
+                    }
+                }
             }
-            ingredients.push(ingredient);
-            ingredient = {
-                name: "",
-                quantity: 0,
-                unit: ""
-            } 
         }
-
-        for (let i = 0; i < nodeList.length; i++) {
-            ingredients[i] = ingredients[i+1];
-        }
-        ingredients.pop()
+        
         recipe.ingredients = ingredients
 
         axios.post('http://localhost:8000/api/v1/personal-area/', {
