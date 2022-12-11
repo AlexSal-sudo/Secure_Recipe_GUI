@@ -14,6 +14,9 @@
 </script>
 
 <title>Secure Recipe</title>
+
+<h2 class="titleUserSearch">All recipes from our users</h2>
+
 {#each recipes as recipe}
     <RecipeMin {...recipe}></RecipeMin>
 {/each}

@@ -1,5 +1,7 @@
 <script>
 	import { dataset_dev, onMount } from "svelte/internal";
+    import { redirect } from '@sveltejs/kit';
+
     export let data;
 
     function getCookie(name) {
@@ -30,7 +32,7 @@
                                 "<option value=\"cl\">cl</option>" +
                                 "<option value=\"ml\">ml</option>" +
                                 "<option value=\"l\">l</option>" +
-                                "<option value=\"l\">cup</option>" +
+                                "<option value=\"cup\">cup</option>" +
                             "</select>" +
                         "</td>" +
                     "</tr>" +
@@ -45,47 +47,58 @@
     let recipe = {}
 
     import axios from 'axios';
+
+    function existingIngredients(ingredients) {
+        return "<div class=\"add-ingredients\">" +
+                "<table>" +
+                    "<tr>" +
+                        "<td>" +
+                            "<label for=\"nomeProdotto\">Ingredients name:</label>" +
+                            "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\" value=\"" + ingredients.name +"\">" +
+                        "</td>" +
+                        "<td>" +
+                            "<label for=\"quantitaProdotto\">Quantity:</label>" +
+                            "<input type=\"number\" id=\"quantitaProdotto\" name=\"quantitaProdotto\" value=\"" + ingredients.quantity + "\">" +
+                        "</td>" +
+                        "<td>" +
+                            "<label for=\"unitaProdotto\">Unit of measure:</label>" +
+                            "<select id=\"unitaProdotto\" value=\"" + ingredients.unit + "\">" +
+                                "<option value=\"n/a\">n/a</option>" +
+                                "<option value=\"g\">g</option>" +
+                                "<option value=\"kg\">kg</option>" +
+                                "<option value=\"cl\">cl</option>" +
+                                "<option value=\"ml\">ml</option>" +
+                                "<option value=\"l\">l</option>" +
+                                "<option value=\"cup\">cup</option>" +
+                            "</select>" +
+                        "</td>" +
+                    "</tr>" +
+                "</table>" +
+                "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
+            "</div>"
+    }
+    
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
             window.location.replace('/')
         } else {
-            await axios("http://localhost:8000/api/v1/recipes/" + data.id, {
+            await axios("http://localhost:8000/api/v1/personal-area/" + data.id, {
                 method: "GET",
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                withCredentials: true,
             }).then(response => {
                 recipe = response.data;
                 for(let i = 0; i < recipe.ingredients.length; i++) {
                     var e = document.createElement('div')
-                    e.innerHTML = "<div class=\"add-ingredients\">" +
-                            "<table>" +
-                                "<tr>" +
-                                    "<td>" +
-                                        "<label for=\"nomeProdotto\">Ingredients name:</label>" +
-                                        "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\" value=\"" + recipe.ingredients[i].name +"\">" +
-                                    "</td>" +
-                                    "<td>" +
-                                        "<label for=\"quantitaProdotto\">Quantity:</label>" +
-                                        "<input type=\"number\" id=\"quantitaProdotto\" name=\"quantitaProdotto\" value=\"" + recipe.ingredients[i].quantity + "\">" +
-                                    "</td>" +
-                                    "<td>" +
-                                        "<label for=\"unitaProdotto\">Unit of measure:</label>" +
-                                        "<select id=\"unitaProdotto\" value=\"" + recipe.ingredients[i].unit + "\">" +
-                                            "<option value=\"n/a\">n/a</option>" +
-                                            "<option value=\"g\">g</option>" +
-                                            "<option value=\"kg\">kg</option>" +
-                                            "<option value=\"cl\">cl</option>" +
-                                            "<option value=\"ml\">ml</option>" +
-                                            "<option value=\"l\">l</option>" +
-                                            "<option value=\"l\">cup</option>" +
-                                        "</select>" +
-                                    "</td>" +
-                                "</tr>" +
-                            "</table>" +
-                            "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
-                        "</div>"
+                    e.innerHTML = existingIngredients(recipe.ingredients[i])
                     while(e.firstChild)
                         document.getElementById("list-ingredients")?.appendChild(e.firstChild);
                     document.getElementById('publish').disabled = false;
                 }
+            }).catch(error =>{
+                window.location.replace('/account')
             })
         }
     });
@@ -147,7 +160,6 @@
     {/if}
     <h2>Title</h2>
     <input type="text" id="title" name="title" bind:value={recipe.title}>
-    <a class="user"><i class="fa fa-user"></i> Utente</a>
     <a class="created_at"><i class="fa fa-clock-o"></i> {recipe.created_at}</a>
     <h2>Description</h2>
     <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               

@@ -44,24 +44,26 @@
 
 <title>LOGIN | Secure Recipe</title>
 
-<form id="login">
-    <h2>Login</h2>
-    {#if alert_displayed != null}
-        <div class="invalid-feedback">{alert_displayed}</div>
-    {/if}
-
-    {#if username_data.valid != null && !username_data.valid}
-        <div class="invalid-feedback">{username_data.message}</div>
-    {/if}
-
-    {#if password_data.valid != null && !password_data.valid}
-        <div class="invalid-feedback">{password_data.message}</div>
-    {/if}
-
-    <label  for="username">Username*:</label>
-    <input type="text" id="username" bind:value={current_form_data.username}/>
-
-    <label for="password">Password*:</label>
-    <input type="password" id="password" bind:value={current_form_data.password}/>
+<div id="login">
+    <form>
+        <h2>Login</h2>
+        {#if alert_displayed != null}
+            <div class="invalid-feedback">{alert_displayed}</div>
+        {/if}
+    
+        {#if username_data.valid != null && !username_data.valid}
+            <div class="invalid-feedback">{username_data.message}</div>
+        {/if}
+    
+        {#if password_data.valid != null && !password_data.valid}
+            <div class="invalid-feedback">{password_data.message}</div>
+        {/if}
+    
+        <label  for="username">Username*:</label>
+        <input type="text" id="username" bind:value={current_form_data.username} required/>
+    
+        <label for="password">Password*:</label>
+        <input type="password" id="password" bind:value={current_form_data.password} required/>
+    </form>
     <input type="submit" on:click={doLogin} value="Login">
-</form>
+</div>

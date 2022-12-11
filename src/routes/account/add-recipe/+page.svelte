@@ -105,7 +105,7 @@
                                 "<option value=\"cl\">cl</option>" +
                                 "<option value=\"ml\">ml</option>" +
                                 "<option value=\"l\">l</option>" +
-                                "<option value=\"l\">cup</option>" +
+                                "<option value=\"cup\">cup</option>" +
                             "</select>" +
                         "</td>" +
                     "</tr>" +
@@ -129,7 +129,6 @@
     {/if}
     <h2>Title</h2>
     <input type="text" id="title" name="title" bind:value={recipe.title}>
-    <a class="user"><i class="fa fa-user"></i> Utente</a>
     <a class="created_at"><i class="fa fa-clock-o"></i> {date}</a>
     <h2>Description</h2>
     <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
