@@ -14,7 +14,6 @@
         var e = document.createElement('div')
         e.innerHTML = "<div class=\"add-ingredients\">" +
                 "<table>" +
-                    "<tr>" +
                         "<td>" +
                             "<label for=\"nomeProdotto\">Ingredients name:</label>" +
                             "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\">" +
@@ -35,7 +34,6 @@
                                 "<option value=\"cup\">cup</option>" +
                             "</select>" +
                         "</td>" +
-                    "</tr>" +
                 "</table>" +
                 "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
             "</div>"
@@ -47,11 +45,11 @@
     let recipe = {}
 
     import axios from 'axios';
+	import IngredientRecipe from "../../../../import/ingredient_recipe.svelte";
 
     function existingIngredients(ingredients) {
         return "<div class=\"add-ingredients\">" +
                 "<table>" +
-                    "<tr>" +
                         "<td>" +
                             "<label for=\"nomeProdotto\">Ingredients name:</label>" +
                             "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\" value=\"" + ingredients.name +"\">" +
@@ -72,12 +70,12 @@
                                 "<option value=\"cup\">cup</option>" +
                             "</select>" +
                         "</td>" +
-                    "</tr>" +
                 "</table>" +
                 "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
             "</div>"
     }
     
+    let test = []
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
             window.location.replace('/')
@@ -90,13 +88,7 @@
                 withCredentials: true,
             }).then(response => {
                 recipe = response.data;
-                for(let i = 0; i < recipe.ingredients.length; i++) {
-                    var e = document.createElement('div')
-                    e.innerHTML = existingIngredients(recipe.ingredients[i])
-                    while(e.firstChild)
-                        document.getElementById("list-ingredients")?.appendChild(e.firstChild);
-                    document.getElementById('publish').disabled = false;
-                }
+                test = recipe.ingredients;
             }).catch(error =>{
                 window.location.replace('/account')
             })
@@ -113,24 +105,28 @@
             unit: ""
         }
         for (let i = 0; i < nodeList.length; i++) {
-            if(nodeList[i].nodeName !== 'INPUT') {
-                ingredient.name = nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value;
-                ingredient.quantity = Number(nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1].value);
-                ingredient.unit = nodeList[i].childNodes[0].childNodes[0].childNodes[0].childNodes[2].childNodes[1].value;
+            if(nodeList[i].nodeName === 'DIV') {
+                for(let j = 0; j < nodeList[i].childNodes.length; j++) {
+                    if(nodeList[i].childNodes[j].nodeName === 'TABLE') {
+                        let indice = 0;
+                        if(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2] == undefined)
+                            indice++;
+                        ingredient.name = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2-indice].value;
+                        ingredient.quantity = Number(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[2].childNodes[2-indice].value);
+                        ingredient.unit = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[4-(indice*2)].childNodes[2-indice].value;
+                        ingredients.push(ingredient);
+                        ingredient = {
+                            name: "",
+                            quantity: 0,
+                            unit: ""
+                        }
+                    }
+                }
             }
-            ingredients.push(ingredient);
-            ingredient = {
-                name: "",
-                quantity: 0,
-                unit: ""
-            } 
         }
-
-        for (let i = 0; i < nodeList.length; i++) {
-            ingredients[i] = ingredients[i+1];
-        }
-        ingredients.pop()
+        
         recipe.ingredients = ingredients
+        console.log(recipe.ingredients)
 
         axios.put('http://localhost:8000/api/v1/personal-area/' + data.id + '/', {
             title: recipe.title,
@@ -166,6 +162,9 @@
     <h2>Ingredients</h2>
     <div id="list-ingredients">
         <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
+        {#each test as item}
+            <svelte:component this={IngredientRecipe} {...item}/>
+        {/each}
     </div>
     <input type="submit" id="publish" value="Update recipe" style="margin-block-start: 1em;" on:click={updateRecipe}>
 </form>
