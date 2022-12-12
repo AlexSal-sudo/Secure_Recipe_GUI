@@ -39,18 +39,25 @@ body {
     padding: 20px 25px 20px 25px;
     border-radius: 10px;
     background-color: #ebebeb;
-    margin: 15px auto;
+    margin: 15px auto 40px auto;
     box-shadow: 0px 2px 20px #818181;
 }
 
-.search * {
+.search h3, .search input {
     margin: 10px 0;
+    width: -webkit-fill-available;
 }
 
 @media screen and (max-width: 700px) {
     .search {
         width: auto;
         margin: 20px;
+    }
+    
+    .search td {
+        width: 100%;
+        display: block;
+        margin: 10px 0;
     }
 }
 
@@ -81,7 +88,7 @@ input, textarea, select {
     width: -webkit-fill-available;
 }
 
-input:disabled {
+input:disabled, button:disabled {
     background-color: #c5c5c5;
 }
 
@@ -116,4 +123,8 @@ select {
     font-weight: 600;
     transition: 200ms;
     margin-right: 25px;
+}
+
+table {
+    width: -webkit-fill-available;
 }
