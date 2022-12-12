@@ -112,8 +112,13 @@
         }).then(response =>{
             window.location.replace('/account')
         }).catch(error =>{
-            console.log(error)
-            alert_displayed = error.response.data;
+            let error_list = "<ul>"
+            for(let key in error.response.data) {
+                for(let i = 0; i < error.response.data[key].length; i++)
+                    error_list += "<li><i>" + key.toUpperCase() + ":</i> " + error.response.data[key][i] + "</li>"
+            }
+            error_list += "</ul>"
+            alert_displayed = error_list;
         })
     }
 </script>
@@ -125,7 +130,7 @@
 <form>
     <h1>Edit Recipe</h1>
     {#if alert_displayed != null}
-        <div class="invalid-feedback">{alert_displayed}</div>
+        <div class="invalid-feedback">{@html alert_displayed}</div>
     {/if}
     <h2>Title</h2>
     <input type="text" id="title" name="title" bind:value={recipe.title}>

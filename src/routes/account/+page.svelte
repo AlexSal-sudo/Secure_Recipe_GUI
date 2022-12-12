@@ -1,12 +1,6 @@
 <script>
-	import { dataset_dev, onMount } from "svelte/internal";
+	import { onMount } from "svelte/internal";
     import RecipeAccount from "../../import/recipe_account.svelte";
-
-    function getCookie(name) {
-        function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-        return match ? match[1] : null;
-    }
 
     let recipes = [];
     let type_account = null;
@@ -15,8 +9,7 @@
         if(getCookie('csrftoken') === null) {
             window.location.href = '/'
         } else {
-            await axios("http://localhost:8000/api/v1/personal-area/", {
-                method: "GET",
+            axios.get("http://localhost:8000/api/v1/personal-area/", {
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken'),
                 },
@@ -25,8 +18,7 @@
                 recipes = response.data;
             })
 
-            await axios("http://localhost:8000/api/v1/personal-area/account-type", {
-                method: "GET",
+            axios.get("http://localhost:8000/api/v1/personal-area/account-type", {
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken'),
                 },

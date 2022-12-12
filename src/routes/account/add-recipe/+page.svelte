@@ -1,34 +1,19 @@
 <script>
-	import { dataset_dev, onMount } from "svelte/internal";
-
-    function getCookie(name) {
-        function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-        return match ? match[1] : null;
-    }
+	import { onMount } from "svelte/internal";
 
     import axios from 'axios';
     onMount(async() => {
+        console.log(getCookie('csrftoken'))
         if(getCookie('csrftoken') === null) {
             window.location.replace('/')
         }
     });
-
-    function getCreateDate() {
-        let timeElapsed = Date.now();
-        let today = new Date(timeElapsed);
-        if(today.getDate() < 10)
-            return today.getFullYear() + "-" + (today.getMonth()+1) + "-0" + today.getDate();
-        else
-            return today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-    }
     
     let recipe = {
         title: null,
         description: null,
         ingredients: []
     }
-    let date = getCreateDate()
 
     let alert_displayed = null;
     async function addRecipe() {
@@ -74,7 +59,6 @@
         }).then(response =>{
             window.location.replace('/')
         }).catch(error =>{
-            console.log(error.response.data['title'])
             let error_list = "<ul>"
             for(let key in error.response.data) {
                 for(let i = 0; i < error.response.data[key].length; i++)
@@ -131,7 +115,6 @@
     {/if}
     <h2>Title</h2>
     <input type="text" id="title" name="title" bind:value={recipe.title}>
-    <a class="created_at"><i class="fa fa-clock-o"></i> {date}</a>
     <h2>Description</h2>
     <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
     <h2>Ingredients</h2>
