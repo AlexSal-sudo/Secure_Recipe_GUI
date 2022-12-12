@@ -101,6 +101,16 @@ input[type=text] {
     margin-block-start: 1em;
 }
 
+.listRecipeAccount a {
+    text-decoration: none;
+    color: #1E1E23;
+    opacity:1;
+}
+
+.listRecipeAccount a:hover {
+    opacity:0.5;
+}
+
 .listRecipeAccount p {
     font-size: 25px;
     font-weight: bold;

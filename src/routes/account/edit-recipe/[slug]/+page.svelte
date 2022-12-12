@@ -4,12 +4,6 @@
 
     export let data;
 
-    function getCookie(name) {
-        function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-        return match ? match[1] : null;
-    }
-
     function addIngredients() {
         var e = document.createElement('div')
         e.innerHTML = "<div class=\"add-ingredients\">" +
@@ -40,7 +34,6 @@
         while(e.firstChild)
             document.getElementById("list-ingredients")?.appendChild(e.firstChild);
         document.getElementById('publish').disabled = false;
-        
     }
 
     let recipe = {}
