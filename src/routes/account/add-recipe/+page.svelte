@@ -6,7 +6,7 @@
         title: "",
         description: "",
         ingredients: []
-    }
+    };
 
     let alert_authorization = null;
     let alert_displayed = null;
@@ -33,12 +33,12 @@
                 if(response.data['type-account'] == 2) {
                     error_authorization("You do not have permission to perform this action.");
                 }
-            })
+            });
         }
     });
 
     async function addRecipe() {            
-        recipe.ingredients = giveIngredients()
+        recipe.ingredients = giveIngredients();
 
         axios.post('http://localhost:8000/api/v1/personal-area/', {
             title: recipe.title,
@@ -53,7 +53,7 @@
             window.location.replace('/')
         }).catch(error =>{
             alert_displayed = printError(error.response.data);
-        })        
+        });     
     }
 </script>
 

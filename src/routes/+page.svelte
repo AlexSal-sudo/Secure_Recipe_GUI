@@ -14,7 +14,7 @@
         axios.get("http://localhost:8000/api/v1/recipes/"
         ).then(response => {
             recipes = response.data;
-        })
+        });
     });
 
     async function orderDate() {
@@ -22,16 +22,16 @@
         axios.get('http://localhost:8000/api/v1/recipes/sort-by-date/'
         ).then(response =>{
             recipes = response.data;
-        }) 
-    }
+        });
+    };
 
     async function orderTitle() {
         alert_displayed = null;
         axios.get('http://localhost:8000/api/v1/recipes/sort-by-title/'
         ).then(response =>{
             recipes = response.data;
-        }) 
-    }
+        });
+    };
 
     async function searchAuthor() {
         alert_displayed = null;
@@ -41,8 +41,8 @@
             recipes = response.data;
         }).catch(error =>{
             alert_displayed = error.response.data['detail']
-        })
-    }
+        });
+    };
 
     async function searchIngredient() {
         alert_displayed = null;
@@ -52,8 +52,8 @@
             recipes = response.data;
         }).catch(error =>{
             alert_displayed = error.response.data['detail']
-        })
-    }
+        });
+    };
 
     async function searchTitle() {
         alert_displayed = null;
@@ -63,8 +63,8 @@
             recipes = response.data;
         }).catch(error =>{
             alert_displayed = error.response.data['detail']
-        })
-    }
+        });
+    };
 
     async function cancelSearch() {
         alert_displayed = null;
@@ -73,8 +73,8 @@
         axios.get("http://localhost:8000/api/v1/recipes/"
         ).then(response => {
             recipes = response.data;
-        })
-    }
+        });
+    };
 </script>
 
 <title>Secure Recipe</title>

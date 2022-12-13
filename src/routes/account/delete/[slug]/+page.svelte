@@ -10,7 +10,7 @@
         alert_displayed = null;
 
         if(getCookie('csrftoken') === null) {
-            alert_displayed = "You are not logged in or registered."
+            alert_displayed = "You are not logged in or registered.";
         } else {
             axios.delete("http://localhost:8000/api/v1/personal-area/" + data.id, {
                 withCredentials: true,
@@ -21,7 +21,7 @@
                 window.location.href = '/account'
             }).catch(error =>{
                 alert_displayed = error.response.data["detail"];
-            })
+            });
         }
     });
 </script>

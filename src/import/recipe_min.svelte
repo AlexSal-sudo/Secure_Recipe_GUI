@@ -1,5 +1,6 @@
 <script>
-    // @ts-nocheck
+// @ts-nocheck
+
     export let id;
     export let author;
     export let created_at;

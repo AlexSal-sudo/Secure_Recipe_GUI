@@ -17,7 +17,7 @@
             }
             recipe = response.data;
             recipe.ingredients = ingredientsList;
-        })
+        });
     });
 </script>
 

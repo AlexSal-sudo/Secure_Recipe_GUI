@@ -12,7 +12,7 @@
         alert_authorization = error;
         document.getElementById('account').innerHTML = "";
         document.getElementById('content').id = "tmp";
-    }
+    };
 
     onMount(async() => {
         if(getCookie('csrftoken') === null) {
@@ -25,7 +25,7 @@
                 withCredentials: true,
             }).then(response => {
                 recipes = response.data;
-            })
+            });
 
             axios.get("http://localhost:8000/api/v1/personal-area/account-type", {
                 headers: {
@@ -34,7 +34,7 @@
                 withCredentials: true,
             }).then(response => {
                 type_account = response.data['type-account'];
-            })
+            });
         }
     });
 </script>

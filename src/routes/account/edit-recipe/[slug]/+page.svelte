@@ -20,7 +20,7 @@
         alert_authorization = error;
         document.getElementById('edit-recipe').innerHTML = "";
         document.getElementById('content').id = "tmp";
-    }
+    };
 
     onMount(async() => {
         alert_authorization = null;
@@ -46,14 +46,14 @@
                     }).then(response => {
                         recipe = response.data;
                         list_ingredients = recipe.ingredients;
-                    })
+                    });
                 }
-            })
+            });
         }
     });
 
     async function updateRecipe() {
-        recipe.ingredients = giveIngredients()
+        recipe.ingredients = giveIngredients();
 
         axios.put('http://localhost:8000/api/v1/personal-area/' + data.id + '/', {
             title: recipe.title,
@@ -68,7 +68,7 @@
             window.location.replace('/account')
         }).catch(error =>{
             alert_displayed = printError(error.response.data)
-        })
+        });
     }
 </script>
 

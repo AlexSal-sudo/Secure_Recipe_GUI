@@ -1,7 +1,9 @@
 <script>
-    export let name
-    export let quantity
-    export let unit
+// @ts-nocheck
+
+    export let name;
+    export let quantity;
+    export let unit;
 </script>
 
 <div class="add-ingredients">

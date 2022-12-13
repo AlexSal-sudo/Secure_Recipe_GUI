@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
     export let id;
     export let author;
     export let username;

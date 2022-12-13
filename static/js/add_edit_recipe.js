@@ -1,5 +1,5 @@
 function addIngredients() {
-    var e = document.createElement('div')
+    var e = document.createElement('div');
     e.innerHTML = "<div class=\"add-ingredients\">" +
             "<table>" +
                     "<td>" +
@@ -32,12 +32,12 @@ function addIngredients() {
 
 function giveIngredients() {
     const nodeList = document.getElementById('list-ingredients').childNodes;
-    let ingredients = []
+    let ingredients = [];
     let ingredient = {
         name: "",
         quantity: 0,
         unit: ""
-    }
+    };
     for (let i = 0; i < nodeList.length; i++) {
         if(nodeList[i].nodeName === 'DIV') {
             for(let j = 0; j < nodeList[i].childNodes.length; j++) {
@@ -53,7 +53,7 @@ function giveIngredients() {
                         name: "",
                         quantity: 0,
                         unit: ""
-                    }
+                    };
                 }
             }
         }
@@ -63,12 +63,12 @@ function giveIngredients() {
 }
 
 function printError(result) {
-    let error_list = "<ul>"
+    let error_list = "<ul>";
     for(let key in result) {
         for(let i = 0; i < result[key].length; i++)
-            error_list += "<li><i>" + key.toUpperCase() + ":</i> " + result[key][i] + "</li>"
+            error_list += "<li><i>" + key.toUpperCase() + ":</i> " + result[key][i] + "</li>";
     }
-    error_list += "</ul>"
+    error_list += "</ul>";
     return error_list;
 }
 

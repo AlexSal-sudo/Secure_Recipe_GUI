@@ -4,12 +4,12 @@
     let current_form_data = {
         "username": "",
         "password": ""
-    }
+    };
 
     let username_data = {
         valid: null,
         message: "",
-    }
+    };
     
     let password_data = {
         valid: null,
@@ -40,11 +40,10 @@
                 window.location.replace('/')
             }).catch(error =>{
                 alert_displayed = error.response.data.non_field_errors[0]
-            })
+            });
         }
     }
 </script>
-
 
 <title>LOGIN | Secure Recipe</title>
 
