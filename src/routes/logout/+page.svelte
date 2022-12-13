@@ -9,8 +9,7 @@
     }
 
     onMount(async() => {        
-        await axios('http://localhost:8000/api/v1/auth/logout/', {
-            method: "POST",
+        axios.post('http://localhost:8000/api/v1/auth/logout/', {
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
             },

@@ -1,16 +1,15 @@
 <script>
-    import RecipeMin from '../../../import/recipe_min.svelte';
+    import axios from 'axios';
     import { onMount } from 'svelte/internal';
-    /** @type {import('./$types').PageData} */
+    import RecipeMin from '../../../import/recipe_min.svelte';
+    
     export let data;
 
-    let url = "http://localhost:8000/api/v1/recipes/by-author/" + data.id
     let recipes = [];
-    import axios from 'axios';
+
     onMount(async() => {
-        await axios(url, {
-            method: "GET",
-        }).then(response => {
+        axios.get("http://localhost:8000/api/v1/recipes/by-author/" + data.id,)
+        .then(response => {
             recipes = response.data;
         })
     });

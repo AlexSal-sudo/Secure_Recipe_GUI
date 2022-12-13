@@ -1,12 +1,14 @@
 <script>
+    import axios from 'axios';
     import { onMount } from 'svelte/internal';
-    /** @type {import('./$types').PageData} */
+    
     export let data;
 
-    import axios from 'axios';
     let alert_displayed = null;
+
     onMount(async() => {
         alert_displayed = null;
+
         if(getCookie('csrftoken') === null) {
             alert_displayed = "You are not logged in or registered."
         } else {
@@ -29,6 +31,6 @@
 {#if alert_displayed != null}
     <div class="invalid-feedback" style="margin: 0 auto; width: 600px;">
         {@html alert_displayed}
-        <a href="/account">Return to account page</a>
+        <a href="/">Return to homepage</a>
     </div>
 {/if}

@@ -1,19 +1,17 @@
 <script>
-    import RecipeMax from '../../../import/recipe_max.svelte';
+    import axios from 'axios';
     import { onMount } from 'svelte/internal';
-    /** @type {import('./$types').PageData} */
+    import RecipeMax from '../../../import/recipe_max.svelte';
+
     export let data;
 
     let recipe = {};
     let ingredientsList = "";
-    let url = "http://localhost:8000/api/v1/recipes/" + data.id
-    import axios from 'axios';
+    
     onMount(async() => {
-        await axios(url, {
-            method: "GET",
-        }).then(response => {
-            let i = 0;
-            for (;response.data.ingredients[i];) {
+        axios.get("http://localhost:8000/api/v1/recipes/" + data.id)
+        .then(response => {
+            for(let i = 0; i < response.data.ingredients.length; i++) {
                 ingredientsList += "<li><i>" + response.data.ingredients[i].name + "</i>, " + response.data.ingredients[i].quantity + " "  + response.data.ingredients[i].unit + "</li>";
                 i++;
             }

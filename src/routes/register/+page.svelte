@@ -1,14 +1,14 @@
 <script>
     import axios from 'axios';
 
-    let alert_displayed = null;
-
     let new_form_data = {
         "username": "",
         "email": "",
         "password1": "",
         "password2": ""
     }
+
+    let alert_displayed = null;
 
     async function doRegistration() {
         alert_displayed = null;

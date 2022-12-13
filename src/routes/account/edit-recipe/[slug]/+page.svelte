@@ -1,97 +1,59 @@
 <script>
-	import { dataset_dev, onMount } from "svelte/internal";
-    import { redirect } from '@sveltejs/kit';
+    import axios from 'axios';
+    import { onMount } from "svelte/internal";
+
+    import IngredientRecipe from "../../../../import/ingredient_recipe.svelte";
 
     export let data;
 
-    function addIngredients() {
-        var e = document.createElement('div')
-        e.innerHTML = "<div class=\"add-ingredients\">" +
-                "<table>" +
-                        "<td>" +
-                            "<label for=\"nomeProdotto\">Ingredients name:</label>" +
-                            "<input type=\"text\" id=\"nomeProdotto\" name=\"nomeProdotto\">" +
-                        "</td>" +
-                        "<td>" +
-                            "<label for=\"quantitaProdotto\">Quantity:</label>" +
-                            "<input type=\"number\" id=\"quantitaProdotto\" name=\"quantitaProdotto\">" +
-                        "</td>" +
-                        "<td>" +
-                            "<label for=\"unitaProdotto\">Unit of measure:</label>" +
-                            "<select id=\"unitaProdotto\">" +
-                                "<option value=\"n/a\">n/a</option>" +
-                                "<option value=\"g\">g</option>" +
-                                "<option value=\"kg\">kg</option>" +
-                                "<option value=\"cl\">cl</option>" +
-                                "<option value=\"ml\">ml</option>" +
-                                "<option value=\"l\">l</option>" +
-                                "<option value=\"cup\">cup</option>" +
-                            "</select>" +
-                        "</td>" +
-                "</table>" +
-                "<input type=\"submit\" id=\"removeIngredients\" name=\"removeIngredients\" value=\"Remove ingredient\" onclick=\"this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;\">" +
-            "</div>"
-        while(e.firstChild)
-            document.getElementById("list-ingredients")?.appendChild(e.firstChild);
-        document.getElementById('publish').disabled = false;
+    let recipe = {
+        title: "",
+        description: "",
+        ingredients: []
+    }
+    let list_ingredients = []
+
+    let alert_authorization = null;
+    let alert_displayed = null;
+
+    function error_authorization(error) {
+        alert_authorization = error;
+        document.getElementById('edit-recipe').innerHTML = "";
+        document.getElementById('content').id = "tmp";
     }
 
-    let recipe = {}
-
-    import axios from 'axios';
-	import IngredientRecipe from "../../../../import/ingredient_recipe.svelte";
-    
-    let list_ingredients = []
     onMount(async() => {
+        alert_authorization = null;
+        alert_displayed = null;
+        
         if(getCookie('csrftoken') === null) {
-            window.location.replace('/')
+            error_authorization("You are not logged in or registered.");
         } else {
-            await axios("http://localhost:8000/api/v1/personal-area/" + data.id, {
-                method: "GET",
+            axios.get("http://localhost:8000/api/v1/personal-area/account-type", {
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken'),
                 },
                 withCredentials: true,
             }).then(response => {
-                recipe = response.data;
-                list_ingredients = recipe.ingredients;
-            }).catch(error =>{
-                window.location.replace('/account')
+                if(response.data['type-account'] == 2) {
+                    error_authorization("You do not have permission to perform this action.");
+                } else {
+                    axios.get("http://localhost:8000/api/v1/personal-area/" + data.id, {
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                        },
+                        withCredentials: true,
+                    }).then(response => {
+                        recipe = response.data;
+                        list_ingredients = recipe.ingredients;
+                    })
+                }
             })
         }
     });
 
-    let alert_displayed = null;
     async function updateRecipe() {
-        const nodeList = document.getElementById('list-ingredients').childNodes;
-        let ingredients = []
-        let ingredient = {
-            name: "",
-            quantity: 0,
-            unit: ""
-        }
-        for (let i = 0; i < nodeList.length; i++) {
-            if(nodeList[i].nodeName === 'DIV') {
-                for(let j = 0; j < nodeList[i].childNodes.length; j++) {
-                    if(nodeList[i].childNodes[j].nodeName === 'TABLE') {
-                        let indice = 0;
-                        if(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2] == undefined)
-                            indice++;
-                        ingredient.name = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].childNodes[2-indice].value;
-                        ingredient.quantity = Number(nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[2-indice].childNodes[2-indice].value);
-                        ingredient.unit = nodeList[i].childNodes[j].childNodes[0].childNodes[0].childNodes[4-(indice*2)].childNodes[2-indice].value;
-                        ingredients.push(ingredient);
-                        ingredient = {
-                            name: "",
-                            quantity: 0,
-                            unit: ""
-                        }
-                    }
-                }
-            }
-        }
-        
-        recipe.ingredients = ingredients
+        recipe.ingredients = giveIngredients()
 
         axios.put('http://localhost:8000/api/v1/personal-area/' + data.id + '/', {
             title: recipe.title,
@@ -105,13 +67,7 @@
         }).then(response =>{
             window.location.replace('/account')
         }).catch(error =>{
-            let error_list = "<ul>"
-            for(let key in error.response.data) {
-                for(let i = 0; i < error.response.data[key].length; i++)
-                    error_list += "<li><i>" + key.toUpperCase() + ":</i> " + error.response.data[key][i] + "</li>"
-            }
-            error_list += "</ul>"
-            alert_displayed = error_list;
+            alert_displayed = printError(error.response.data)
         })
     }
 </script>
@@ -120,21 +76,29 @@
 
 <title>EDIT RECIPE | Secure Recipe</title>
 
-
-<h1>Edit Recipe</h1>
-{#if alert_displayed != null}
-    <div class="invalid-feedback">{@html alert_displayed}</div>
+{#if alert_authorization != null}
+    <div class="invalid-feedback" style="margin: 0 auto; width: 600px; margin-top: 90px;">
+        {@html alert_authorization}
+        <a href="/" on:click={resetStyleSetting}>Return to homepage</a>
+    </div>
 {/if}
-<h2>Title</h2>
-<input type="text" id="title" name="title" bind:value={recipe.title}>
-<a class="created_at"><i class="fa fa-clock-o"></i> {recipe.created_at}</a>
-<h2>Description</h2>
-<textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
-<h2>Ingredients</h2>
-<div id="list-ingredients">
-    <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
-    {#each list_ingredients as item}
-        <svelte:component this={IngredientRecipe} {...item}/>
-    {/each}
+
+<div id="edit-recipe">
+    <h1>Edit Recipe</h1>
+    {#if alert_displayed != null}
+        <div class="invalid-feedback">{@html alert_displayed}</div>
+    {/if}
+    <h2>Title</h2>
+    <input type="text" id="title" name="title" bind:value={recipe.title}>
+    <a class="created_at"><i class="fa fa-clock-o"></i> {recipe.created_at}</a>
+    <h2>Description</h2>
+    <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
+    <h2>Ingredients</h2>
+    <div id="list-ingredients">
+        <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
+        {#each list_ingredients as item}
+            <svelte:component this={IngredientRecipe} {...item}/>
+        {/each}
+    </div>
+    <button id="publish" style="margin-block-start: 1em;" on:click={updateRecipe}>Update recipe</button>
 </div>
-<button id="publish" style="margin-block-start: 1em;" on:click={updateRecipe}>Update recipe</button>

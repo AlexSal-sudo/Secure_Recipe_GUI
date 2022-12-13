@@ -1,32 +1,36 @@
 <script lang="ts">
     import axios from 'axios';
+
     let current_form_data = {
         "username": "",
         "password": ""
     }
-    let alert_displayed = null;
-    let password_data = {
-        valid: null,
-        message: "",
-    };
+
     let username_data = {
         valid: null,
         message: "",
     }
+    
+    let password_data = {
+        valid: null,
+        message: "",
+    };
+
+    let alert_displayed = null;
+
     async function doLogin() {
         alert_displayed = null;
         password_data.valid = null;
         username_data.valid = null;
-        if (current_form_data.username == ""){
+
+        if (current_form_data.username == "") {
             username_data.valid = false;
             username_data.message = "Username obbligatorio!";
-        }
-        else if(current_form_data.password == ""){
+        } else if(current_form_data.password == "") {
             password_data.valid = false;
             password_data.message = "Password obbligatoria!";
             return;
-        }
-        else{
+        } else {
             axios.post('http://localhost:8000/api/v1/auth/login/',{
                 username: current_form_data.username,
                 password: current_form_data.password
