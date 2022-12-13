@@ -18,8 +18,6 @@
         }).then(response =>{
             document.cookie = "csrftoken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
             window.location.href = '/'
-        }).catch(error =>{
-            console.log("ERRORE")
         })
     });
 </script>

@@ -10,11 +10,11 @@
             <tr>
                 <td>
                     <label for="nomeProdotto">Ingredients name:</label>
-                    <input type="text" id="nomeProdotto" name="nomeProdotto" value="{name}">
+                    <input type="text" id="nomeProdotto" name="nomeProdotto" value="{name}" pattern="^[a-zA-ZÀ-ú ]+$">
                 </td>
                 <td>
                     <label for="quantitaProdotto">Quantity:</label>
-                    <input type="number" id="quantitaProdotto" name="quantitaProdotto" value="{quantity}">
+                    <input type="number" id="quantitaProdotto" name="quantitaProdotto" value="{quantity}" min="1" max="1000">
                 </td>
                 <td>
                     <label for="unitaProdotto">Unit of measure:</label>
@@ -65,5 +65,5 @@
             </tr>
         </tbody>
     </table>
-    <input type="submit" id="removeIngredients" name="removeIngredients" value="Remove ingredient" onclick="this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;">
+    <button id="removeIngredients" name="removeIngredients" onclick="this.parentElement.remove();if(document.getElementById('list-ingredients').childElementCount > 1) document.getElementById('publish').disabled = false; else document.getElementById('publish').disabled = true;">Remove ingredient</button>
 </div>

@@ -4,9 +4,11 @@
     export let data;
 
     import axios from 'axios';
+    let alert_displayed = null;
     onMount(async() => {
+        alert_displayed = null;
         if(getCookie('csrftoken') === null) {
-            window.location.replace('/')
+            alert_displayed = "You are not logged in or registered."
         } else {
             axios.delete("http://localhost:8000/api/v1/personal-area/" + data.id, {
                 withCredentials: true,
@@ -15,9 +17,18 @@
                 },
             }).then(response => {
                 window.location.href = '/account'
+            }).catch(error =>{
+                alert_displayed = error.response.data["detail"];
             })
         }
     });
 </script>
 
 <title>ELIMINAZIONE RICETTA | Secure Recipe</title>
+
+{#if alert_displayed != null}
+    <div class="invalid-feedback" style="margin: 0 auto; width: 600px;">
+        {@html alert_displayed}
+        <a href="/account">Return to account page</a>
+    </div>
+{/if}

@@ -68,6 +68,7 @@
 
     async function cancelSearch() {
         alert_displayed = null;
+        input_search.value = "";
         button_cancelSearch.disabled = true;
         axios.get("http://localhost:8000/api/v1/recipes/"
         ).then(response => {

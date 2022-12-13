@@ -120,22 +120,21 @@
 
 <title>EDIT RECIPE | Secure Recipe</title>
 
-<form>
-    <h1>Edit Recipe</h1>
-    {#if alert_displayed != null}
-        <div class="invalid-feedback">{@html alert_displayed}</div>
-    {/if}
-    <h2>Title</h2>
-    <input type="text" id="title" name="title" bind:value={recipe.title}>
-    <a class="created_at"><i class="fa fa-clock-o"></i> {recipe.created_at}</a>
-    <h2>Description</h2>
-    <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
-    <h2>Ingredients</h2>
-    <div id="list-ingredients">
-        <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
-        {#each list_ingredients as item}
-            <svelte:component this={IngredientRecipe} {...item}/>
-        {/each}
-    </div>
-    <input type="submit" id="publish" value="Update recipe" style="margin-block-start: 1em;" on:click={updateRecipe}>
-</form>
+
+<h1>Edit Recipe</h1>
+{#if alert_displayed != null}
+    <div class="invalid-feedback">{@html alert_displayed}</div>
+{/if}
+<h2>Title</h2>
+<input type="text" id="title" name="title" bind:value={recipe.title}>
+<a class="created_at"><i class="fa fa-clock-o"></i> {recipe.created_at}</a>
+<h2>Description</h2>
+<textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
+<h2>Ingredients</h2>
+<div id="list-ingredients">
+    <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
+    {#each list_ingredients as item}
+        <svelte:component this={IngredientRecipe} {...item}/>
+    {/each}
+</div>
+<button id="publish" style="margin-block-start: 1em;" on:click={updateRecipe}>Update recipe</button>
