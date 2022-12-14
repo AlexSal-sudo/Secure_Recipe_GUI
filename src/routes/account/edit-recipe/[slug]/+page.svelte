@@ -70,6 +70,29 @@
             alert_displayed = printError(error.response.data)
         });
     }
+
+    function clearErrorValidate() {
+        alert_displayed = null;
+    }
+
+    function validate() {
+        let error = {
+            title: [],
+            description: []
+        };
+        let title_regex = new RegExp("^[a-zA-ZÀ-ú ]+$");
+        let description_regex = new RegExp("^[a-zA-Z0-9À-ú \'!;\.,\n]+$");
+        if(!recipe.title.match(title_regex))
+            error.title.push("Enter a valid value.");
+        if(!recipe.description.match(description_regex))
+            error.description.push("Enter a valid value.");
+            if(error.title.length != 0 || error.description.length != 0) {
+            alert_displayed = printError(error);
+            document.getElementById('publish').disabled = true;
+        } else {
+            document.getElementById('publish').disabled = false;
+        }
+    }
 </script>
 
 <link rel="stylesheet" href="../../css/recipe_max.css">
@@ -89,10 +112,10 @@
         <div class="invalid-feedback">{@html alert_displayed}</div>
     {/if}
     <h2>Title</h2>
-    <input type="text" id="title" name="title" bind:value={recipe.title}>
+    <input type="text" id="title" name="title" bind:value={recipe.title} on:focusin={clearErrorValidate} on:focusout={validate}>
     <a class="created_at"><i class="fa fa-clock-o"></i> {recipe.created_at}</a>
     <h2>Description</h2>
-    <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description}/>               
+    <textarea name="description" class="description" width="100%" rows="5" bind:value={recipe.description} on:focusin={clearErrorValidate} on:focusout={validate}/>               
     <h2>Ingredients</h2>
     <div id="list-ingredients">
         <input type="submit" id="addIngredients" value="Add ingredients" on:click={addIngredients}>
